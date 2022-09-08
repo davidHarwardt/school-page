@@ -1,0 +1,71 @@
+---
+import ArticlePreview from "../components/ArticlePreview.astro";
+import Layout from "../layouts/Layout.astro";
+
+async function fetchArticles() {
+	const raw = await (await fetch("http://localhost:3000/api/articles")).json();
+
+	const list: { title: string, slug: string, thumbnailUrl: string, }[] = raw.docs.map((v: any) => ({
+		title: v.title,
+		slug: v.id,
+		thumbnailUrl: v.thumbnail.url,
+	}));
+
+	return list;
+}
+
+const articles = await fetchArticles();
+---
+
+<Layout title="index">
+	<section class="hero-image full-width"></section>
+	<section class="description">
+		Das Hans-Carossa-Gymnasium ist ein modernes fünfzügiges Gymnasium
+		im Offenen Ganztagsbetrieb mit drei 7. Klassen und zwei grundständigen Zügen besonderer pädagogischer Prägung.
+		Bei allen Bildungsgängne legen wir Wert auf eine möglichst breite solide gymnsiale Grundbildung
+		mit individuellen Wahlmöglichkeiten.
+	</section>
+	<section class="content-header">
+		Schulleben am schönen Hans-Carossa-Gymnasium
+	</section>
+	<section class="content">
+		{articles.map(v => (
+			<ArticlePreview title={v.title} slug={v.slug} thumbnailUrl={v.thumbnailUrl}/>
+		))}
+	</section>
+</Layout>
+
+<style>
+	.hero-image {
+		background-image: url(./hero.jpg);
+		background-position: top;
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		height: 30rem;
+	}
+
+	section {
+		margin: 0 auto;
+		width: 80%;
+		margin-top: var(--padding-large);
+	}
+
+	.description {
+		font-size: var(--font-subtitle);
+	}
+
+	.content {
+		height: 100vh;
+	}
+
+	.content-header {
+		font-size: var(--font-title-xl);
+		text-align: center;
+		font-weight: bold;
+	}
+
+	section.full-width {
+		width: 100%;
+		margin-top: 0;
+	}
+</style>

@@ -1,0 +1,33 @@
+---
+export interface Props {
+    title: string,
+    slug: string,
+    thumbnailUrl: string,
+}
+
+const { title, slug, thumbnailUrl } = Astro.props;
+---
+
+<a href={`/articles/${slug}`} class="article">
+    <div style={`background-image: url(${thumbnailUrl});`} class="article-image"></div>
+    <div class="article-content">
+        <h2 class="article-title">{title}</h2>
+        <div class="article-description">[descr]</div>
+    </div>
+</a>
+
+<style>
+    .article {
+        padding: var(--padding-normal);
+        border-top: 0.1rem solid var(--fg-sec);
+        display: grid;
+        grid-template-columns: 15rem 1fr;
+        gap: var(--padding-normal);
+    }
+
+    .article-image {
+        /* background-color: var(--bg-sec); */
+        background-size: cover;
+        aspect-ratio: 3 / 2;
+    }
+</style>

@@ -1,0 +1,53 @@
+---
+export interface Props {
+    name: string,
+}
+
+const { name } = Astro.props;
+---
+
+<div class="nav-item">
+    <div class="nav-name">{name}</div>
+    <div class="menu">
+        <slot/>
+    </div>
+</div>
+
+<style>
+    .nav-item {
+        position: relative;
+        display: grid;
+        width: fit-content;
+        padding: 0 1rem;
+        user-select: none;
+
+        transition: 0.125s ease-out background-color;
+    }
+
+    .nav-item:hover {
+        background-color: var(--bg-sec);
+    }
+
+    .nav-item:not(:hover) .menu {
+        visibility: hidden;
+    }
+    
+    .nav-name {
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    .menu {
+        position: absolute;
+
+        top: 100%;
+        right: 0;
+
+        background-color: var(--bg-sec);
+        padding: var(--padding-normal);
+
+        display: grid;
+        gap: var(--padding-normal);
+    }
+</style>

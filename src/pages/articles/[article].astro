@@ -1,0 +1,69 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+const { article } = Astro.params;
+
+const raw = await (await fetch(`http://localhost:3000/api/articles/${article}`)).json();
+
+const articleData: {
+    id: string,
+    title: string,
+    content: any,
+    "hero-image": { url: string },
+    thumbnail: { url: string },
+    author: {
+        username: string,
+    },
+} = raw;
+---
+
+<Layout title={articleData.title}>
+    <div class="article">
+        <div class="article-heading">
+            <h1 class="article-title">{articleData.title}</h1>
+            <div class="article-author">
+                von
+                <strong>{articleData.author.username}</strong>
+            </div>
+        </div>
+        <div class="hero-image" style={`background-image: url(${articleData["hero-image"].url});`}></div>
+        <div class="article-content">
+            {articleData.content}
+        </div>
+    </div>
+</Layout>
+
+<style>
+    .article {
+
+        margin-top: var(--padding-large);
+    }
+
+    .article-content {
+        margin: var(--padding-large) auto;
+        width: 80%;
+        max-width: 1400px;
+    }
+
+    .article-heading {
+        width: 80%;
+        max-width: 1400px;
+        margin: 0 auto;
+        margin-bottom: var(--padding-large);
+    }
+
+    .article-author {
+        margin-left: var(--padding-normal);
+        color: var(--fg-sec);
+    }
+
+    .hero-image {
+        width: 100%;
+        max-width: 1500px;
+        aspect-ratio: 20 / 9;
+        margin: 0 auto;
+        background-attachment: fixed;
+        background-position: top;
+        background-repeat: no-repeat;
+    }
+</style>

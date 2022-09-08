@@ -1,0 +1,67 @@
+---
+export interface Props {
+    name: string,
+    href?: string,
+    showChildren?: boolean,
+}
+
+const { name, href, showChildren } = Astro.props;
+---
+
+<div class="nav-menu">
+    <a href={href} class="nav-link">{name}</a>
+    {showChildren &&
+        <div class="arrow"></div>
+    }
+    {showChildren &&
+        <div class="submenu">
+            <slot/>
+        </div>
+    }
+</div>
+
+<style>
+    .nav-menu {
+        display: grid;
+        min-width: 25ch;
+        position: relative;
+        grid-template-columns: 1fr auto;
+    }
+
+    .nav-menu:not(:hover) .submenu {
+        visibility: hidden;
+    }
+    
+    .nav-link {
+        text-align: left;
+    }
+
+    /* .nav-menu:not(:last-child)::after {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 0.1rem;
+        margin: calc(var(--padding-small));
+        background-color: var(--fg-sec);
+    } */
+
+    .submenu {
+        position: absolute;
+        right: 100%;
+        top: calc(var(--padding-normal) * (-1));
+
+        background-color: var(--bg-sec);
+        padding: var(--padding-normal);
+
+        display: grid;
+        gap: var(--padding-normal);
+    }
+
+    .arrow {
+        width: 0.25em;
+        height: 0.25em;
+        border-bottom: 0.125rem solid var(--fg-sec);
+        border-left: 0.125rem solid var(--fg-sec);
+
+    }
+</style>
