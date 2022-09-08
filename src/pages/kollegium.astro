@@ -1,0 +1,42 @@
+---
+import PageContent from "../components/PageContent.astro";
+import Layout from "../layouts/Layout.astro";
+
+---
+
+<Layout title="Kollegium">
+    <PageContent>
+        <table>
+            <thead>
+                <tr>
+                    <th>Kürzel</th>
+                    <th>Nachname</th>
+                    <th>Vorname</th>
+                    <th>Fächer</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Vb</td>
+                    <td>Vorbrodt</td>
+                    <td>Florian</td>
+                    <td>Inf, Phy, Mat</td>
+                </tr>
+            </tbody>
+        </table>
+    </PageContent>
+</Layout>
+
+<style>
+    table {
+        margin: 0 auto;
+    }
+
+    th {
+        padding: var(--padding-normal);
+    }
+
+    td {
+        text-align: center;
+    }
+</style>

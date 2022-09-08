@@ -3,16 +3,17 @@ export interface Props {
     title: string,
     slug: string,
     thumbnailUrl: string,
+    description: string,
 }
 
-const { title, slug, thumbnailUrl } = Astro.props;
+const { title, slug, thumbnailUrl, description } = Astro.props;
 ---
 
 <a href={`/articles/${slug}`} class="article">
     <div style={`background-image: url(${thumbnailUrl});`} class="article-image"></div>
     <div class="article-content">
         <h2 class="article-title">{title}</h2>
-        <div class="article-description">[descr]</div>
+        <div class="article-description">{description}</div>
     </div>
 </a>
 

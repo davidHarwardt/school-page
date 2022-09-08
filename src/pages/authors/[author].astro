@@ -1,5 +1,37 @@
 ---
+import Layout from "../../layouts/Layout.astro";
+import query from "../../helpers/query.js";
+import PageContent from "../../components/PageContent.astro";
+
+const { author } = Astro.params;
+
+const rawUserData = await query("authors", {
+    slug: {
+        equals: author,
+    },
+});
+
+console.log(rawUserData);
+
+
+const userData: {
+    username: string,
+    email: string,
+} = rawUserData.docs[0];
 
 ---
 
+<Layout title={userData.username}>
+    <PageContent>
+        <div class="author">
+            <h1 class="author-name">{userData.username}</h1>
+            <div class="article-list">
 
+            </div>
+        </div>
+    </PageContent>
+</Layout>
+
+<style>
+
+</style>

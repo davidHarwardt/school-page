@@ -1,9 +1,16 @@
 ---
+import PageContent from "../../components/PageContent.astro";
+import query from "../../helpers/query";
 import Layout from "../../layouts/Layout.astro";
 
 const { article } = Astro.params;
 
-const raw = await (await fetch(`http://localhost:3000/api/articles/${article}`)).json();
+
+const rawArticleData = await query("articles", {
+    slug: {
+        equals: article,
+    },
+});
 
 const articleData: {
     id: string,
@@ -13,23 +20,26 @@ const articleData: {
     thumbnail: { url: string },
     author: {
         username: string,
+        id: string,
+        slug: string,
     },
-} = raw;
+    description: string,
+} = rawArticleData.docs[0];
 ---
 
-<Layout title={articleData.title}>
+<Layout title={`${articleData.title}`}>
     <div class="article">
         <div class="article-heading">
             <h1 class="article-title">{articleData.title}</h1>
             <div class="article-author">
                 von
-                <strong>{articleData.author.username}</strong>
+                <a href={`/authors/${articleData.author.slug}`}><strong>{articleData.author.username}</strong></a>
             </div>
         </div>
         <div class="hero-image" style={`background-image: url(${articleData["hero-image"].url});`}></div>
-        <div class="article-content">
+        <PageContent>
             {articleData.content}
-        </div>
+        </PageContent>
     </div>
 </Layout>
 

@@ -5,10 +5,11 @@ import Layout from "../layouts/Layout.astro";
 async function fetchArticles() {
 	const raw = await (await fetch("http://localhost:3000/api/articles")).json();
 
-	const list: { title: string, slug: string, thumbnailUrl: string, }[] = raw.docs.map((v: any) => ({
+	const list: { title: string, slug: string, thumbnailUrl: string, description: string }[] = raw.docs.map((v: any) => ({
 		title: v.title,
-		slug: v.id,
+		slug: v.slug,
 		thumbnailUrl: v.thumbnail.url,
+		description: v.description,
 	}));
 
 	return list;
@@ -30,7 +31,7 @@ const articles = await fetchArticles();
 	</section>
 	<section class="content">
 		{articles.map(v => (
-			<ArticlePreview title={v.title} slug={v.slug} thumbnailUrl={v.thumbnailUrl}/>
+			<ArticlePreview title={v.title} slug={v.slug} thumbnailUrl={v.thumbnailUrl} description={v.description}/>
 		))}
 	</section>
 </Layout>
